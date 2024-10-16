@@ -47,6 +47,7 @@ jobs:
         with:
           name: trunk
           path: dist/
+        
 
   release: 
     name: Release
@@ -63,6 +64,8 @@ jobs:
           name: trunk
           #endroit où ça se télécharge
           path: dist/
+      - name: zip artifacts
+        run: zip -r rust-app.zip dist/*
       - name: Create Github Release
         env:
         #récupérer la version
@@ -80,7 +83,7 @@ jobs:
       #et pas sur le dernier commit (au cas où les tests du dernier commit ne passent pas par exemple, 
       #on veut pas que ça impacte notre commit parce que peut-être que nous ça passe!)
         run: |
-          gh release create --repo $REPO --target $COMMIT $VERSION dist/*
+          gh release create --repo $REPO --target $COMMIT $VERSION rust-app.zip
     
         
       
