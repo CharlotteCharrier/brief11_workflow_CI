@@ -62,7 +62,7 @@ jobs:
           #télécharge l'artifact qui oprte le nom spring (défini dans le build)
           name: trunk
           #endroit où ça se télécharge
-          path: build/
+          path: dist/
       - name: Create Github Release
         env:
         #récupérer la version
