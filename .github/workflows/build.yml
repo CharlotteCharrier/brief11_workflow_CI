@@ -81,9 +81,9 @@ jobs:
         run: |
           if [ "${{ needs.get-version.outputs.is-prerelease}}" == "true" ]
           then 
-          gh release create --prerelease --repo $REPO --target $COMMIT -F changelogs.txt $VERSION rust-app.zip
+          gh release create --prerelease --repo $REPO --target $COMMIT -F changelogs.txt "v$VERSION" rust-app.zip
           else 
-          gh release create --repo $REPO --target $COMMIT -F changelogs.txt $VERSION rust-app.zip
+          gh release create --repo $REPO --target $COMMIT -F changelogs.txt "v$VERSION" rust-app.zip
           fi
     
         
