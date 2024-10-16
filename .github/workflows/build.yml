@@ -43,7 +43,7 @@ jobs:
       - name: install WASM
         run: rustup target add wasm32-unknown-unknown
       - name: install trunk
-        run: cargo install trunk wasm-bindgen-cli
+        uses: jetli/trunk-action@v0.5.0
 
       
         
