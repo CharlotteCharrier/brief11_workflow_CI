@@ -24,10 +24,17 @@ jobs:
          echo "${{ needs.get-version.outputs.changelogs }}"
          echo "${{ needs.get-version.outputs.is-pre-release }}"
          echo "${{ needs.get-version.outputs.will-release }}"
-      #- name: Setup trunk
-      #  uses: trunk-io/trunk-action@bd686325615e9cf5a4ef98372ba94a472f9b5238
       - name: Setup Rust
-        uses: actions-rs/toolchain@v1.0.6
+        uses: actions/checkout@v2
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
+      - name: Setup trunk
+        uses: trunk-io/trunk-action@v1.1.14
+
       
         
       
