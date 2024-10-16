@@ -18,14 +18,6 @@ jobs:
     needs:
       - get-version
     steps:
-      - name: Print version
-        run: |
-         echo "${{ needs.get-version.outputs.version }}"
-         echo "${{ needs.get-version.outputs.changelogs }}" >> changelogs.txt
-         echo "${{ needs.get-version.outputs.is-pre-release }}"
-         echo "${{ needs.get-version.outputs.will-release }}"
-      # - name: Print changelogs from changelogs.md
-      #   run: cat changelogs.md
       - name: Setup Rust
         uses: actions/checkout@v2
       - name: Install latest nightly
@@ -68,6 +60,8 @@ jobs:
           path: dist/
       - name: zip artifacts
         run: zip -r rust-app.zip dist/*
+      - name: Print changelogs
+        run: echo "${{ needs.get-version.outputs.changelogs }}" >> changelogs.txt
       - name: Create Github Release
         env:
         #récupérer la version
