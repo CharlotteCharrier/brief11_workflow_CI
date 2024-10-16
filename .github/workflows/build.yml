@@ -40,6 +40,8 @@ jobs:
         run: rustc --version
       - name: check rustup
         run: rustup --version
+      - name: install WASM
+        run: rustup target add wasm32-unknown-unknown
 
       
         
