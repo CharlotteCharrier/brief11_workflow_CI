@@ -4,15 +4,15 @@ on:
       - main
       - beta
 
-# permissions:
-#   contents: write
+permissions:
+  contents: write
 
 jobs:
   get-version:
      uses: shiipou/github-actions/.github/workflows/get-version.yml@main
 
-  Install-rust:
-    name: Install rust
+  build:
+    name: Rust build
     runs-on: ubuntu-latest
     if: ${{ needs.get-version.outputs.will-release == 'true' }}
     needs:
@@ -43,7 +43,40 @@ jobs:
       - name: build trunk
         run: trunk build --release
 
-      
+  release: 
+    name: Release
+    runs-on: ubuntu-latest
+    #dépend de get-version et de build
+    needs: 
+      - get-version
+      - build
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4.1.8
+        with:
+          #télécharge l'artifact qui oprte le nom spring (défini dans le build)
+          name: rust
+          #endroit où ça se télécharge
+          path: build/
+      - name: Create Github Release
+        env:
+        #récupérer la version
+          VERSION: "${{ needs.get-version.outputs.version }}"
+        #récupérer le nom du repo sous format owner/repository
+          REPO: "${{ github.repository }}"
+        #récupérer le numéro du commit qui a déclenché le workflow
+          COMMIT : "${{ github.sha }}"
+        #token créé par github pour le commit
+        #pas besoin de le spécifier dans la commande d'en dessous car 'gh release create' va le lire automatiquement, 
+        #contrairement aux autres variables d'environnement du dessus
+          GH_TOKEN: "${{ github.token }}"
+      #pipe pour commandes sur plusieurs lignes
+      #on spécifie le numéro de commit car on veut que le workflow se lance sur le commit qui l'a déclenché 
+      #et pas sur le dernier commit (au cas où les tests du dernier commit ne passent pas par exemple, 
+      #on veut pas que ça impacte notre commit parce que peut-être que nous ça passe!)
+        run: |
+          gh release create --repo $REPO --target $COMMIT $VERSION build/*
+    
         
       
   
