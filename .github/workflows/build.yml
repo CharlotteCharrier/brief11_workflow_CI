@@ -8,22 +8,22 @@ permissions:
   contents: write
 
 jobs:
-  get-version:
-     uses: shiipou/github-actions/.github/workflows/get-version.yml@main
+  # get-version:
+  #    uses: shiipou/github-actions/.github/workflows/get-version.yml@main
 
   build:
     name: Rust build
     runs-on: ubuntu-latest
-    if: ${{ needs.get-version.outputs.will-release == 'true' }}
-    needs:
-      - get-version
+    # if: ${{ needs.get-version.outputs.will-release == 'true' }}
+    # needs:
+    #   - get-version
     steps:
-      - name: Print version
-        run: |
-         echo "${{ needs.get-version.outputs.version }}"
-         echo "${{ needs.get-version.outputs.changelogs }}"
-         echo "${{ needs.get-version.outputs.is-pre-release }}"
-         echo "${{ needs.get-version.outputs.will-release }}"
+      # - name: Print version
+      #   run: |
+      #    echo "${{ needs.get-version.outputs.version }}"
+      #    echo "${{ needs.get-version.outputs.changelogs }}"
+      #    echo "${{ needs.get-version.outputs.is-pre-release }}"
+      #    echo "${{ needs.get-version.outputs.will-release }}"
       - name: Setup Rust
         uses: actions/checkout@v2
       - name: Install latest nightly
@@ -32,8 +32,10 @@ jobs:
           toolchain: nightly
           override: true
           components: rustfmt, clippy
-      - name: Setup trunk
-        uses: trunk-io/trunk-action@v1.1.14
+      # - name: Setup trunk
+      #   uses: trunk-io/trunk-action@v1.1.14
+      # - name: Run WASM
+      #   run: trunk build --release
 
       
         
