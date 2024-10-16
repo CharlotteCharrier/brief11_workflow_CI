@@ -24,8 +24,8 @@ jobs:
          echo "${{ needs.get-version.outputs.changelogs }}" >> changelogs.md
          echo "${{ needs.get-version.outputs.is-pre-release }}"
          echo "${{ needs.get-version.outputs.will-release }}"
-      - name: Test changelog
-        run: cat changelogs.md
+      # - name: Print changelogs from changelogs.md
+      #   run: cat changelogs.md
       - name: Setup Rust
         uses: actions/checkout@v2
       - name: Install latest nightly
@@ -85,7 +85,7 @@ jobs:
       #et pas sur le dernier commit (au cas où les tests du dernier commit ne passent pas par exemple, 
       #on veut pas que ça impacte notre commit parce que peut-être que nous ça passe!)
         run: |
-          gh release create --repo $REPO --target $COMMIT $VERSION rust-app.zip
+          gh release create --repo $REPO --target $COMMIT -F changelogs.md $VERSION rust-app.zip
     
         
       
