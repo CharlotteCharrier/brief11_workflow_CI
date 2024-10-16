@@ -38,6 +38,8 @@ jobs:
       #   run: trunk build --release
       - name: check rust version
         run: rustc --version
+      - name: check rustup
+        run: rustup --version
 
       
         
