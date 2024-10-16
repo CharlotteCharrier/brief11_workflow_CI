@@ -36,6 +36,8 @@ jobs:
       #   uses: trunk-io/trunk-action@v1.1.14
       # - name: Run WASM
       #   run: trunk build --release
+      - name: check rust version
+        run: rustc --version
 
       
         
