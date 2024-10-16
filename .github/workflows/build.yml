@@ -1,18 +1,18 @@
 on:
   push:
-    branches:
-      -main
-      -beta
+    # branches:
+    #   -main
+    #   -beta
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
 
 jobs:
   # get-version:
   #    uses: shiipou/github-actions/.github/workflows/get-version.yml@main
 
-  build:
-    name: Rust build
+  Install-rust:
+    name: Install rust
     runs-on: ubuntu-latest
     # if: ${{ needs.get-version.outputs.will-release == 'true' }}
     # needs:
