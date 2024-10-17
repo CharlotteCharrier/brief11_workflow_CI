@@ -85,7 +85,27 @@ jobs:
           else 
           gh release create --repo $REPO --target $COMMIT -F changelogs.txt "v$VERSION" rust-app.zip
           fi
-    
-        
-      
-  
+
+    #BONUS FOURNI PAR FLAVIEN: 
+  publish:
+    if: ${{ needs.get-version.outputs.will-release === 'true' }} && {{ needs.get-version.outputs.is-prerelease == 'false }}
+    needs:
+      - get-version
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: interactive-run-hello-world
+          path: artifacts/
+      - name: Upload with FTP
+        uses: airvzxf/ftp-deployment-action@latest
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local_dir: "./artifacts"
+          remote_dir: "/www/charlotte"
+          delete: 'true'
+          
