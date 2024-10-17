@@ -97,7 +97,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: interactive-run-hello-world
+          name: trunk
           path: artifacts/
       - name: Upload with FTP
         uses: airvzxf/ftp-deployment-action@latest
